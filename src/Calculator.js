@@ -10,6 +10,15 @@ const Calculator = () => {
 
   const calculate = () => {
     try {
+      // Check for empty input or incomplete expressions
+      if (!input.trim() || 
+          /[+\-*/]$/.test(input) ||  // Ends with operator
+          /^[+\-*/]/.test(input)) {  // Starts with operator
+        setResult('Error');
+        return;
+      }
+      
+      // Handle 0/0 case specifically
       if (input === '0/0') {
         setResult('NaN');
       } else {
@@ -34,8 +43,9 @@ const Calculator = () => {
         value={input} 
         readOnly 
         style={inputStyle}
+        data-testid="display"  // Added for testing
       />
-      <div style={resultStyle}>{result}</div>
+      <div style={resultStyle} data-testid="result">{result}</div>
       <div style={buttonsContainer}>
         <button style={buttonStyle} onClick={() => handleClick('7')}>7</button>
         <button style={buttonStyle} onClick={() => handleClick('8')}>8</button>
